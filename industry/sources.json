@@ -1,158 +1,338 @@
 {
-  "$comment": "热点财知道起步信源。已在本机验证过列表结构的写好选择器；其余在后台“信源”页新建并用“预览抓取”校正。待接入：财新/证券时报/一财/界面（本机被 CDN 断连，后台预览验证）；财联社电报/新浪7x24/金十快讯（JS 渲染，走 external 推送或自建 RSSHub 后按 hot_signal 接入）；上金所/基金业协会/世界黄金协会（后台新建调选择器）；ECB/FT/Reuters/MarketWatch（海外源，需配 EGRESS_PROXY_URL）。金十类高频快讯流建议 participation_mode 设 hot_signal 只算热度。首次导入的存量按原文时间归档，不进今天（引擎规则）。之后在后台管理信源，本文件只在首次启动导入。",
-  "sources": [
-    {
-      "id": "stats-zxfb",
-      "name": "国家统计局（数据发布）",
-      "kind": "web_list",
-      "config": {
-        "url": "https://www.stats.gov.cn/sj/zxfb/",
-        "parseMode": "html",
-        "itemSelector": ".wrapper-list li",
-        "linkSelector": "a.pc_1600",
-        "titleSelector": "a.pc_1600",
-        "publishedAtSelector": "span",
-        "publishedAtUtcOffset": "+08:00",
-        "allowUrlPrefixes": ["https://www.stats.gov.cn/sj/zxfb/"],
-        "_aihot": { "initialBackfillLimit": 8 }
-      },
-      "tier": "T1",
-      "participation_mode": "editorial",
-      "interval_minutes": 60,
-      "tags": ["官方", "数据"],
-      "site_fulltext": false,
-      "syndicate_fulltext": false
-    },
-    {
-      "id": "pbc-news",
-      "name": "中国人民银行（新闻发布）",
-      "kind": "web_list",
-      "config": {
-        "url": "http://www.pbc.gov.cn/goutongjiaoliu/113456/113469/index.html",
-        "parseMode": "html",
-        "itemSelector": "td:has(.newslist_style)",
-        "linkSelector": "a",
-        "titleSelector": "a",
-        "publishedAtSelector": "span.hui12",
-        "publishedAtUtcOffset": "+08:00",
-        "allowUrlPrefixes": ["https://www.pbc.gov.cn/goutongjiaoliu/", "http://www.pbc.gov.cn/goutongjiaoliu/"],
-        "_aihot": { "initialBackfillLimit": 8 }
-      },
-      "tier": "T1",
-      "owner_entity_id": "pbc",
-      "participation_mode": "editorial",
-      "interval_minutes": 60,
-      "tags": ["官方"],
-      "site_fulltext": false,
-      "syndicate_fulltext": false
-    },
-    {
-      "id": "csrc-news",
-      "name": "中国证监会（新闻发布）",
-      "kind": "web_list",
-      "config": {
-        "url": "http://www.csrc.gov.cn/csrc/c100028/common_list.shtml",
-        "parseMode": "html",
-        "itemSelector": ".list.mt10 li",
-        "linkSelector": "a",
-        "titleSelector": "a",
-        "publishedAtSelector": "span.date",
-        "publishedAtUtcOffset": "+08:00",
-        "allowUrlPrefixes": ["https://www.csrc.gov.cn/", "http://www.csrc.gov.cn/"],
-        "_aihot": { "initialBackfillLimit": 8 }
-      },
-      "tier": "T1",
-      "owner_entity_id": "csrc",
-      "participation_mode": "editorial",
-      "interval_minutes": 60,
-      "tags": ["官方"],
-      "site_fulltext": false,
-      "syndicate_fulltext": false
-    },
-    {
-      "id": "fed-press",
-      "name": "美联储（新闻稿）",
-      "kind": "rss",
-      "config": {
-        "feedUrl": "https://www.federalreserve.gov/feeds/press_all.xml",
-        "_aihot": { "initialBackfillLimit": 8 }
-      },
-      "tier": "T1",
-      "owner_entity_id": "fed",
-      "participation_mode": "editorial",
-      "interval_minutes": 120,
-      "tags": ["官方", "海外"],
-      "site_fulltext": false,
-      "syndicate_fulltext": false
-    },
-    {
-      "id": "thepaper-finance",
-      "name": "澎湃新闻（财经频道）",
-      "kind": "web_list",
-      "config": {
-        "url": "https://www.thepaper.cn/channel_25951",
-        "parseMode": "html",
-        "itemSelector": "li:has(a[href^='/newsDetail_forward'])",
-        "linkSelector": "a",
-        "titleSelector": "a",
-        "publishedAtSelector": "time",
-        "publishedAtUtcOffset": "+08:00",
-        "allowUrlPrefixes": ["https://www.thepaper.cn/newsDetail_forward"],
-        "_aihot": { "initialBackfillLimit": 8 }
-      },
-      "tier": "T2",
-      "participation_mode": "editorial",
-      "interval_minutes": 30,
-      "tags": ["媒体"],
-      "site_fulltext": false,
-      "syndicate_fulltext": false
-    },
-    {
-      "id": "jj21-home",
-      "name": "21世纪经济报道",
-      "kind": "web_list",
-      "config": {
-        "url": "https://www.21jingji.com/",
-        "parseMode": "html",
-        "itemSelector": "li:has(a[href*='/article/'])",
-        "linkSelector": "a",
-        "titleSelector": "h3",
-        "allowUrlPrefixes": ["https://m.21jingji.com/article/", "https://www.21jingji.com/article/"],
-        "_aihot": { "initialBackfillLimit": 8 }
-      },
-      "tier": "T2",
-      "participation_mode": "editorial",
-      "interval_minutes": 30,
-      "tags": ["媒体"],
-      "site_fulltext": false,
-      "syndicate_fulltext": false
-    },
-    {
-      "id": "mw-topstories",
-      "name": "MarketWatch（头条）",
-      "kind": "rss",
-      "config": {
-        "feedUrl": "https://feeds.content.dowjones.io/public/rss/mw_topstories",
-        "_aihot": { "initialBackfillLimit": 8 }
-      },
-      "tier": "T2",
-      "participation_mode": "editorial",
-      "interval_minutes": 60,
-      "tags": ["媒体", "海外"],
-      "site_fulltext": false,
-      "syndicate_fulltext": false
-    },
-    {
-      "id": "local-push",
-      "name": "本地脚本推送（巨潮公告/快讯）",
-      "kind": "external",
-      "config": {},
-      "tier": "T1",
-      "participation_mode": "editorial",
-      "interval_minutes": 30,
-      "tags": ["官方"],
-      "site_fulltext": false,
-      "syndicate_fulltext": false
-    }
-  ]
+ "$comment": "示范信源：首次启动时导入（scripts/seed.ts），已存在的不会被覆盖。之后在后台“信源”里新建、修改和暂停。字段说明见 docs/customize.md。",
+ "sources": [
+ {
+  "id": "stats-zxfb",
+  "name": "国家统计局（数据发布）",
+  "kind": "web_list",
+  "config": {
+   "url": "https://www.stats.gov.cn/sj/zxfb/",
+   "parseMode": "html",
+   "itemSelector": ".wrapper-list li",
+   "linkSelector": "a.pc_1600",
+   "titleSelector": "a.pc_1600",
+   "publishedAtSelector": "span",
+   "publishedAtUtcOffset": "+08:00",
+   "allowUrlPrefixes": [
+    "https://www.stats.gov.cn/sj/zxfb/"
+   ],
+   "_aihot": {
+    "initialBackfillLimit": 8
+   }
+  },
+  "tier": "T1",
+  "participation_mode": "editorial",
+  "interval_minutes": 60,
+  "tags": [
+   "官方",
+   "数据"
+  ],
+  "site_fulltext": false,
+  "syndicate_fulltext": false
+ },
+ {
+  "id": "pbc-news",
+  "name": "中国人民银行（新闻发布）",
+  "kind": "web_list",
+  "config": {
+   "url": "http://www.pbc.gov.cn/goutongjiaoliu/113456/113469/index.html",
+   "parseMode": "html",
+   "itemSelector": "td:has(.newslist_style)",
+   "linkSelector": "a",
+   "titleSelector": "a",
+   "publishedAtSelector": "span.hui12",
+   "publishedAtUtcOffset": "+08:00",
+   "allowUrlPrefixes": [
+    "https://www.pbc.gov.cn/goutongjiaoliu/",
+    "http://www.pbc.gov.cn/goutongjiaoliu/"
+   ],
+   "_aihot": {
+    "initialBackfillLimit": 8
+   }
+  },
+  "tier": "T1",
+  "owner_entity_id": "pbc",
+  "participation_mode": "editorial",
+  "interval_minutes": 60,
+  "tags": [
+   "官方"
+  ],
+  "site_fulltext": false,
+  "syndicate_fulltext": false
+ },
+ {
+  "id": "csrc-news",
+  "name": "中国证监会（新闻发布）",
+  "kind": "web_list",
+  "config": {
+   "url": "http://www.csrc.gov.cn/csrc/c100028/common_list.shtml",
+   "parseMode": "html",
+   "itemSelector": ".list.mt10 li",
+   "linkSelector": "a",
+   "titleSelector": "a",
+   "publishedAtSelector": "span.date",
+   "publishedAtUtcOffset": "+08:00",
+   "allowUrlPrefixes": [
+    "https://www.csrc.gov.cn/",
+    "http://www.csrc.gov.cn/"
+   ],
+   "_aihot": {
+    "initialBackfillLimit": 8
+   }
+  },
+  "tier": "T1",
+  "owner_entity_id": "csrc",
+  "participation_mode": "editorial",
+  "interval_minutes": 60,
+  "tags": [
+   "官方"
+  ],
+  "site_fulltext": false,
+  "syndicate_fulltext": false
+ },
+ {
+  "id": "fed-press",
+  "name": "美联储（新闻稿）",
+  "kind": "rss",
+  "config": {
+   "feedUrl": "https://www.federalreserve.gov/feeds/press_all.xml",
+   "_aihot": {
+    "initialBackfillLimit": 8
+   }
+  },
+  "tier": "T1",
+  "owner_entity_id": "fed",
+  "participation_mode": "editorial",
+  "interval_minutes": 120,
+  "tags": [
+   "官方",
+   "海外"
+  ],
+  "site_fulltext": false,
+  "syndicate_fulltext": false
+ },
+ {
+  "id": "thepaper-finance",
+  "name": "澎湃新闻（财经频道）",
+  "kind": "web_list",
+  "config": {
+   "url": "https://www.thepaper.cn/channel_25951",
+   "parseMode": "html",
+   "itemSelector": "li:has(a[href^='/newsDetail_forward'])",
+   "linkSelector": "a",
+   "titleSelector": "a",
+   "publishedAtSelector": "time",
+   "publishedAtUtcOffset": "+08:00",
+   "allowUrlPrefixes": [
+    "https://www.thepaper.cn/newsDetail_forward"
+   ],
+   "_aihot": {
+    "initialBackfillLimit": 8
+   }
+  },
+  "tier": "T2",
+  "participation_mode": "editorial",
+  "interval_minutes": 30,
+  "tags": [
+   "媒体"
+  ],
+  "site_fulltext": false,
+  "syndicate_fulltext": false
+ },
+ {
+  "id": "jj21-home",
+  "name": "21世纪经济报道",
+  "kind": "web_list",
+  "config": {
+   "url": "https://www.21jingji.com/",
+   "parseMode": "html",
+   "itemSelector": "li:has(a[href*='/article/'])",
+   "linkSelector": "a",
+   "titleSelector": "h3",
+   "allowUrlPrefixes": [
+    "https://m.21jingji.com/article/",
+    "https://www.21jingji.com/article/"
+   ],
+   "_aihot": {
+    "initialBackfillLimit": 8
+   }
+  },
+  "tier": "T2",
+  "participation_mode": "editorial",
+  "interval_minutes": 30,
+  "tags": [
+   "媒体"
+  ],
+  "site_fulltext": false,
+  "syndicate_fulltext": false
+ },
+ {
+  "id": "mw-topstories",
+  "name": "MarketWatch（头条）",
+  "kind": "rss",
+  "config": {
+   "feedUrl": "https://feeds.content.dowjones.io/public/rss/mw_topstories",
+   "_aihot": {
+    "initialBackfillLimit": 8
+   }
+  },
+  "tier": "T2",
+  "participation_mode": "editorial",
+  "interval_minutes": 60,
+  "tags": [
+   "媒体",
+   "海外"
+  ],
+  "site_fulltext": false,
+  "syndicate_fulltext": false
+ },
+ {
+  "id": "local-push",
+  "name": "本地脚本推送（巨潮公告/快讯）",
+  "kind": "external",
+  "config": {},
+  "tier": "T1",
+  "participation_mode": "editorial",
+  "interval_minutes": 30,
+  "tags": [
+   "官方"
+  ],
+  "site_fulltext": false,
+  "syndicate_fulltext": false
+ },
+ {
+  "id": "yicai-news",
+  "name": "第一财经",
+  "kind": "web_list",
+  "tier": "T2",
+  "interval_minutes": 60,
+  "config": {
+   "url": "https://www.yicai.com/news/",
+   "parseMode": "html",
+   "itemSelector": "#newslist a.f-db",
+   "linkSelector": "a",
+   "titleSelector": "h2",
+   "publishedAtSelector": ".rightspan span",
+   "publishedAtUtcOffset": "+08:00",
+   "allowUrlPrefixes": [
+    "https://www.yicai.com/news/"
+   ]
+  },
+  "participation_mode": "editorial",
+  "tags": [
+   "财经媒体"
+  ],
+  "site_fulltext": false,
+  "syndicate_fulltext": false
+ },
+ {
+  "id": "stcn-xw",
+  "name": "证券时报",
+  "kind": "web_list",
+  "tier": "T1_5",
+  "interval_minutes": 60,
+  "config": {
+   "url": "https://www.stcn.com/article/list/xw.html",
+   "parseMode": "html",
+   "itemSelector": "li:has(.tt)",
+   "linkSelector": ".tt a",
+   "titleSelector": ".tt a",
+   "publishedAtUtcOffset": "+08:00",
+   "allowUrlPrefixes": [
+    "https://www.stcn.com/article/detail/"
+   ],
+   "detail": {
+    "maxFetches": 12,
+    "publishedAtRegex": "(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2})",
+    "publishedAtUtcOffset": "+08:00"
+   }
+  },
+  "participation_mode": "editorial",
+  "tags": [
+   "财经媒体"
+  ],
+  "site_fulltext": false,
+  "syndicate_fulltext": false
+ },
+ {
+  "id": "nbd-news",
+  "name": "每日经济新闻",
+  "kind": "web_list",
+  "tier": "T2",
+  "interval_minutes": 60,
+  "config": {
+   "url": "https://www.nbd.com.cn/",
+   "parseMode": "html",
+   "itemSelector": "ul.news-list li",
+   "linkSelector": "a",
+   "titleSelector": ".news-info p",
+   "publishedAtSelector": ".news-info span",
+   "publishedAtUtcOffset": "+08:00",
+   "allowUrlPrefixes": [
+    "https://www.nbd.com.cn/articles/"
+   ]
+  },
+  "participation_mode": "editorial",
+  "tags": [
+   "财经媒体"
+  ],
+  "site_fulltext": false,
+  "syndicate_fulltext": false
+ },
+ {
+  "id": "caixin-fin",
+  "name": "财新（财经频道）",
+  "kind": "web_list",
+  "tier": "T2",
+  "interval_minutes": 60,
+  "config": {
+   "url": "https://www.caixin.com/finance/",
+   "parseMode": "html",
+   "itemSelector": ".stitXtuwen_list dl",
+   "linkSelector": "h4 a",
+   "titleSelector": "h4 a",
+   "publishedAtRegex": "finance\\.caixin\\.com/(\\d{4}-\\d{2}-\\d{2})/",
+   "publishedAtUtcOffset": "+08:00",
+   "allowUrlPrefixes": [
+    "https://finance.caixin.com/",
+    "https://www.caixin.com/"
+   ]
+  },
+  "participation_mode": "editorial",
+  "tags": [
+   "财经媒体"
+  ],
+  "site_fulltext": false,
+  "syndicate_fulltext": false
+ },
+ {
+  "id": "jiemian-flash",
+  "name": "界面新闻（快讯）",
+  "kind": "web_list",
+  "tier": "T2",
+  "interval_minutes": 30,
+  "config": {
+   "url": "https://www.jiemian.com/lists/4.html",
+   "parseMode": "html",
+   "itemSelector": ".columns-right-center__newsflash-item",
+   "linkSelector": "h4 a",
+   "titleSelector": "h4 a",
+   "publishedAtUtcOffset": "+08:00",
+   "allowUrlPrefixes": [
+    "https://www.jiemian.com/article/"
+   ],
+   "detail": {
+    "maxFetches": 20,
+    "publishedAtRegex": "(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2})",
+    "publishedAtUtcOffset": "+08:00"
+   }
+  },
+  "participation_mode": "editorial",
+  "tags": [
+   "财经媒体"
+  ],
+  "site_fulltext": false,
+  "syndicate_fulltext": false
+ }
+ ]
 }

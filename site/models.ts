@@ -39,6 +39,11 @@ export const PRESETS: Record<string, ModelPreset> = {
     service: "mimo", model: "mimo-v2.6-flash", baseUrlEnv: "XIAOMI_MIMO_BASE_URL", apiKeyEnv: "XIAOMI_MIMO_API_KEY",
     extra: { thinking: { type: "disabled" } }, jsonMode: true,
   },
+  // 硅基流动免费档小模型：用于内部判定类步骤（预筛/结构/归组/复核/反馈/非精选摘要），降本
+  "siliconflow-free": {
+    service: "siliconflow", model: "Qwen/Qwen2.5-14B-Instruct",
+    baseUrlEnv: "SF_BASE_URL", apiKeyEnv: "SF_API_KEY", jsonMode: true,
+  },
   "qwen3-vl-flash": {
     service: "dashscope", model: "qwen3-vl-flash", baseUrlEnv: "DASHSCOPE_BASE_URL", apiKeyEnv: "DASHSCOPE_API_KEY",
     extra: { enable_thinking: false }, jsonMode: false, vision: true,

@@ -1,0 +1,23 @@
+# 跑测试用的镜像：与 Dockerfile 的 base 相同，但不构建前端、不 prune（测试要 devDependencies）。
+# 用法：
+#   docker build -f Dockerfile.test -t aihot-test .
+#   docker run --rm --network aihot_default -e DATABASE_URL=postgres://aihot:$PASS@db:5432/aihot_test aihot-test
+FROM node:24-trixie-slim
+WORKDIR /app
+# git：architecture/migration-check 等测试用 git ls-files 扫仓库（运行时再挂载 .git）
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends postgresql-client ca-certificates git \
+ && rm -rf /var/lib/apt/lists/*
+COPY package.json package-lock.json ./
+COPY apps/api/package.json apps/api/
+COPY apps/web/package.json apps/web/
+COPY apps/worker/package.json apps/worker/
+COPY packages/backend/package.json packages/backend/
+COPY packages/contracts/package.json packages/contracts/
+COPY industry/package.json industry/
+COPY site/package.json site/
+RUN npm ci --no-audit --no-fund --registry=https://registry.npmmirror.com
+COPY . .
+# SSR 测试要 apps/web/build/server/index.js（与主 Dockerfile 的 build 阶段一致）
+RUN npm run build -w @aihot/web
+CMD ["sh", "-c", "node --test-global-setup=tests/databases.ts --import ./tests/databases.ts --test --test-concurrency=${TEST_CONCURRENCY:-4} --test-timeout=120000 --test-reporter=spec \"tests/*.test.ts\" \"modules/*/tests/*.test.ts\""]
