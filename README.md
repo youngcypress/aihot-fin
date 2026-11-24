@@ -50,7 +50,7 @@
 |------|------|
 | `industry/` | 财经分类与标签词表、财经评分标准与提示词、财经信源 `sources.json`、门槛 `selection.ts` |
 | `site/` | 站名「热点财知道」、文案、品牌、`poweredBy` 保留 AIHOT 署名 |
-| `site/models.ts` | 硅基流动免费档 preset（`siliconflow-free` = Qwen2.5-14B），分步降本 |
+| `site/models.ts` | 硅基流动免费档 preset（`siliconflow-free` = Qwen2.5-7B），分步降本 |
 | 部署 | Docker Compose 五服务；生产可只跑服务器单实例；模型路由用 `*_MODEL` 环境变量 |
 
 **请不要使用 AIHOT 的名字和 Logo 作为本站品牌**；页脚/关于页保留「由 AIHOT 驱动」署名即可。

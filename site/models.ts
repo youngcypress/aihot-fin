@@ -40,8 +40,9 @@ export const PRESETS: Record<string, ModelPreset> = {
     extra: { thinking: { type: "disabled" } }, jsonMode: true,
   },
   // 硅基流动免费档小模型：用于内部判定类步骤（预筛/结构/归组/复核/反馈/非精选摘要），降本
+  // 11-24：真正免费的只有 7B——14B 是付费模型，会扣账户余额（扣光 402）
   "siliconflow-free": {
-    service: "siliconflow", model: "Qwen/Qwen2.5-14B-Instruct",
+    service: "siliconflow", model: "Qwen/Qwen2.5-7B-Instruct",
     baseUrlEnv: "SF_BASE_URL", apiKeyEnv: "SF_API_KEY", jsonMode: true,
   },
   "qwen3-vl-flash": {
